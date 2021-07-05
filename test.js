@@ -25,15 +25,7 @@ function myFunction(){
             }
             console.log("All good with the elAccuracy");
         }else{
-            var ranOnce;
-            if(!ranOnce){
-                console.log(`problem with elAccuracy being ${elAccuracy}. I will retry`);
-                ranOnce = true;
-                setTimeout(myFunction(), 1000);
-            }else{
-                console.log(`problem with elAccuracy being ${elAccuracy} again. I quit retrying`);
-            }
-
+                console.log(`problem with elAccuracy being ${elAccuracy}`);
         }        
     });
     console.log(kintone);
