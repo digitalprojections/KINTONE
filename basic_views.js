@@ -1,13 +1,9 @@
 (function() {
  "use strict";
  
-  kintone.events.on(['app.record.index.show'], function(event) {
+  kintone.events.on('app.record.index.show', function(event) {
     //-------------------------------------
-    if (!event.size) {
-      console.log('events empty');
-      
-      return;
-    }
+    
   // レコードの一覧取得
   $(".calendar-table-gaia").html("<div id='calendar'></div>");
     var records = event.records;
