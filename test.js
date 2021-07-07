@@ -33,6 +33,25 @@ function myFunction(){
         }else{
                console.log(`problem with elCustomer being ${elCustomer}`);
         }        
+
+        //CODE TO collect a tags
+        var eventList = [];
+        var aTagList = [];
+        for (i in records){
+            eventList.push(document.getElementById(i+"-calendar-gaia"));
+        }
+        for (j=0;j<eventList.length;j++){
+            aTagList.push(eventList[j].getElementsByTagName("a"));
+        }
+
+
     });
     console.log(kintone);
+
+    eventid = records["2021-07-06"][0].startdate.value;
+    eventid = eventid.substring(0,10);
+    eselector = eventid+"-calendar-gaia";
+    var myEventElement = document.getElementById(eselector);
+
+
 }
