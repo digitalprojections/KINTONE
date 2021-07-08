@@ -103,24 +103,64 @@ if(document.getElementById("calendar")){
 }
 
 function addCalendar(){
-  $('#calendar').fullCalendar({
-    header: {
-      left: 'prev,next today',
-      center: 'title',
-      right: 'month,basicWeek,basicDay'
-    },
-    defaultDate: new Date(),
-    displayEventTime: true,
-    displayEventEnd:true,
-    editable: true,
-    timeFormat: 'HH:mm',
-    eventLimit: true, // allow "more" link when too many events
-    events: eventList, // 配列表示データとして設定
-    eventClick:function(info) {
-      console.log(info);
-      // change the border color just for fun
-      //info.el.style.borderColor = 'red';
-      window.open(window.location.pathname + "show#record="+info.record_id.value,"_self");
-    }
-  });
+//  calendar = $('#calendar').fullCalendar({
+//     header: {
+//       left: 'prev,next today',
+//       center: 'title',
+//       right: 'month,basicWeek,basicDay'
+//     },
+//     defaultDate: new Date(),
+//     displayEventTime: true,
+//     displayEventEnd:true,
+//     editable: true,
+//     timeFormat: 'HH:mm',
+//     eventLimit: true, // allow "more" link when too many events
+//     events: eventList, // 配列表示データとして設定
+//     eventClick:function(info) {
+//       console.log(info);
+//       // change the border color just for fun
+//       //info.el.style.borderColor = 'red';
+//       window.open(window.location.pathname + "show#record="+info.record_id.value,"_self");
+//     }
+//   });
+var calendarEl = document.getElementById('calendar');
+        calendar = new FullCalendar.Calendar(calendarEl, {
+          initialView: 'dayGridMonth',  
+          headerToolbar:{
+            start: '', // will normally be on the left. if RTL, will be on the right
+            center: 'title',
+            end: '' // will normally be on the right. if RTL, will be on the left
+          },
+          events: eventList
+        });
+        calendar.render();
+  addEventListeners();
+  console.log("rendering the calendar");
+  //document.getElementsByClassName("calendar-menu-gaia")[0].setAttribute("style","display:none");
+  
+}
+
+function addEventListeners(){
+  funcRef();
+  //document.getElementsByClassName("fc-prev-button fc-button fc-button-primary")[0].setAttribute("onclick", "window.location.assign('#date='+calendar.getDate().getFullYear()+'-'+ fixZero(calendar.getDate().getMonth()+1));");
+  //document.getElementsByClassName("fc-next-button fc-button fc-button-primary")[0].setAttribute("onclick", "window.location.assign('#date='+calendar.getDate().getFullYear()+'-'+ fixZero(calendar.getDate().getMonth()+1));");
+}
+
+funcRef = function (){
+  lochash = window.location.hash;
+  if(lochash.length>0){
+    lochash = lochash.substr(lochash.indexOf("=")+1);
+    console.log(lochash);
+    calendar.gotoDate(lochash);
+  }
+}
+
+//window.onhashchange = funcRef;
+
+function fixZero(x){  
+  if(x<=9){
+    x="0"+x;    
+  }
+  console.log(x);
+  return x;
 }
