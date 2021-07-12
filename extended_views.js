@@ -30,12 +30,13 @@ function myFunction(){
         }
         
       }
+
       var calen = document.createElement("div");
-    calen.id = "calendar";
-  calen.addEventListener("onload", addCalendar);
-  document.querySelector(".calendar-table-gaia").innerHTML="";
-  document.querySelector(".calendar-table-gaia").append(calen);
-  calen.dispatchEvent(new CustomEvent("onload"));
+      calen.id = "calendar";
+      calen.addEventListener("onload", addCalendar);
+      document.querySelector(".calendar-table-gaia").innerHTML="";
+      document.querySelector(".calendar-table-gaia").append(calen);
+      calen.dispatchEvent(new CustomEvent("onload"));
     }
 
     //-------------------------------------
@@ -98,7 +99,6 @@ function myFunction(){
 
 if(document.getElementById("calendar")){
   console.log("calendar added");
-
 }
 }
 
@@ -134,23 +134,16 @@ var calendarEl = document.getElementById('calendar');
           eventClick:function(info) {
             console.log(info);
             clicktargetevent = info;
-            // change the border color just for fun
-            //info.el.style.borderColor = 'red';
-            //clicktargetevent.event._def.extendedProps.record_id.value;
             window.open(window.location.pathname + "show#record="+info.event._def.extendedProps.record_id.value,"_self");
           }
         });
         calendar.render();
   addEventListeners();
   console.log("rendering the calendar");
-  //document.getElementsByClassName("calendar-menu-gaia")[0].setAttribute("style","display:none");
-  
 }
 
 function addEventListeners(){
   funcRef();
-  //document.getElementsByClassName("fc-prev-button fc-button fc-button-primary")[0].setAttribute("onclick", "window.location.assign('#date='+calendar.getDate().getFullYear()+'-'+ fixZero(calendar.getDate().getMonth()+1));");
-  //document.getElementsByClassName("fc-next-button fc-button fc-button-primary")[0].setAttribute("onclick", "window.location.assign('#date='+calendar.getDate().getFullYear()+'-'+ fixZero(calendar.getDate().getMonth()+1));");
 }
 
 funcRef = function (){
@@ -161,8 +154,6 @@ funcRef = function (){
     calendar.gotoDate(lochash);
   }
 }
-
-//window.onhashchange = funcRef;
 
 function fixZero(x){  
   if(x<=9){
