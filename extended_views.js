@@ -24,6 +24,7 @@ function myFunction(){
               start : moment(records[index][j].startdate.value).format("YYYY-MM-DD HH:mm:ss"),
               end   : moment(records[index][j].enddate.value).format("YYYY-MM-DD HH:mm:ss"),
               color : selectColor(records[index][j].category_dd.value),
+              category: records[index][j].category_dd.value,
               record_id:records[index][j].Record_number
             });
         }
@@ -44,7 +45,7 @@ function myFunction(){
   });
 
   
-
+}
 
   function selectColor(category) {
   var selectColor = 'lightblue';
@@ -96,10 +97,11 @@ function myFunction(){
     return selectColor;
   }
 
-if(document.getElementById("calendar")){
-  console.log("calendar added");
-}
-}
+  if(document.getElementById("calendar")){
+    console.log("calendar added");
+  }
+
+
 
 function addCalendar(){
   //以前使おうとしていたキャレンダー、制限多く、技能不足していると思いました。今使っているキャレンダーはそのキャラクターが上に乗せられたベースになっていた物で有り、
@@ -129,6 +131,7 @@ var calendarEl = document.getElementById('calendar');
             center: 'title',//冗長と感じられるかも知れませんが、確認の為に必要。真ん中に表示する、例：July-2021
             end: '' // 普段右側、RTLの場合は左に表示する。必要がない為隠している
           },
+          locale:'ja',
           events: eventList,
           eventClick:function(info) {
             console.log(info);
@@ -136,28 +139,18 @@ var calendarEl = document.getElementById('calendar');
             window.open(window.location.pathname + "show#record="+info.event._def.extendedProps.record_id.value,"_self");
           }
         });
+        
         calendar.render();
-  addEventListeners();
+        funcRef = function (){
+          lochash = window.location.hash;
+          if(lochash.length>0){
+            lochash = lochash.substr(lochash.indexOf("=")+1);
+            console.log(lochash);
+            calendar.gotoDate(lochash);
+          }
+        }
+        funcRef();
+        //eventList = [];
   console.log("rendering the calendar");
-}
-
-function addEventListeners(){
-  funcRef();
-}
-
-funcRef = function (){
-  lochash = window.location.hash;
-  if(lochash.length>0){
-    lochash = lochash.substr(lochash.indexOf("=")+1);
-    console.log(lochash);
-    calendar.gotoDate(lochash);
-  }
-}
-
-function fixZero(x){  
-  if(x<=9){
-    x="0"+x;    
-  }
-  console.log(x);
-  return x;
+  
 }
