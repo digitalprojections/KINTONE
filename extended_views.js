@@ -14,7 +14,6 @@ function myFunction(){
     records = event.records;
 
     // 取得したレコードを配列に設定する
-    
     eventList = [];
     if (records) {
       for (index in records) {
