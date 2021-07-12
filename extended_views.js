@@ -23,8 +23,7 @@ function myFunction(){
               title : '(' + records[index][j].Created_by.value.name + ') ' +records[index][j].eventname.value,              
               start : moment(records[index][j].startdate.value).format("YYYY-MM-DD HH:mm:ss"),
               end   : moment(records[index][j].enddate.value).format("YYYY-MM-DD HH:mm:ss"),
-              color : selectColor(records[index][j].category_dd.value),
-              category: records[index][j].category_dd.value,
+              color : selectColor[records[index][j].category_dd.value],
               record_id:records[index][j].Record_number
             });
         }
@@ -46,57 +45,6 @@ function myFunction(){
 
   
 }
-
-  function selectColor(category) {
-  var selectColor = 'lightblue';
-    switch(category) {
-      case '営業 (訪問)':
-        selectColor = 'gray';
-        break;
-      case '営業 (Web)':
-        selectColor = 'silver';
-        break;
-      case '社員面談 (訪問)':
-        selectColor = 'lightcoral';
-        break;
-      case '社員面談 (Web)':
-        selectColor = 'blue';
-        break;
-      case '面接':
-        selectColor = 'navy';
-        break;
-      case '説明会':
-        selectColor = 'teal';
-        break;
-      case '社内会議':
-        selectColor = 'lightseagreen';
-        break;
-      case '業者打合せ':
-        selectColor = 'lime';
-        break;
-      case '来客':
-        selectColor = 'aqua';
-        break;
-      case '出張':
-        selectColor = 'yellow';
-        break;
-      case '配属':
-        selectColor = 'lightpink';
-        break;
-      case '在宅':
-        selectColor = 'fuchsia';
-        break;
-      case '有給休暇':
-        selectColor = 'olive';
-        break;
-      case 'その他':
-        selectColor = 'purple';
-        break;
-    }
-
-    return selectColor;
-  }
-
   if(document.getElementById("calendar")){
     console.log("calendar added");
   }
@@ -137,6 +85,14 @@ var calendarEl = document.getElementById('calendar');
             console.log(info);
             clicktargetevent = info;
             window.open(window.location.pathname + "show#record="+info.event._def.extendedProps.record_id.value,"_self");
+          },
+          eventClassNames: function(arg) {
+            console.log(arg);
+            if (arg.event.extendedProps.isUrgent) {
+              return [ 'urgent' ]
+            } else {
+              return [ 'normal' ]
+            }
           }
         });
         
