@@ -43,6 +43,11 @@ function myFunction(){
         for (j=0;j<eventList.length;j++){
             aTagList.push(eventList[j].getElementsByTagName("a"));
         }
+/*
+aTagList>
+0: HTMLCollection(2) [a, a] //an element of array stands for events of the day
+1: HTMLCollection [a]
+* */
 
 
     });
