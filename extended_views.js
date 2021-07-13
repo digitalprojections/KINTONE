@@ -24,7 +24,9 @@ function myFunction(){
               start : moment(records[index][j].startdate.value).format("YYYY-MM-DD HH:mm:ss"),
               end   : moment(records[index][j].enddate.value).format("YYYY-MM-DD HH:mm:ss"),
               color : selectColor[records[index][j].category_dd.value],
-              record_id:records[index][j].Record_number
+              bg_color : selectColor[records[index][j].category_dd.value],
+              record_id:records[index][j].Record_number,
+              category_name:records[index][j].category_dd.value
             });
         }
         
@@ -49,7 +51,17 @@ function myFunction(){
     console.log("calendar added");
   }
 
-
+  function loadXMLDoc() {
+    var xhttp = new XMLHttpRequest();
+    xhttp.onreadystatechange = function() {
+      if (this.readyState == 4 && this.status == 200) {
+        document.getElementById("demo").innerHTML =
+        this.responseText;
+      }
+    };
+    xhttp.open("GET", "https://holidays-jp.github.io/api/v1/date.json", true);
+    xhttp.send();
+  }
 
 function addCalendar(){
   //以前使おうとしていたキャレンダー、制限多く、技能不足していると思いました。今使っているキャレンダーはそのキャラクターが上に乗せられたベースになっていた物で有り、
@@ -88,6 +100,8 @@ var calendarEl = document.getElementById('calendar');
           },
           eventClassNames: function(arg) {
             console.log(arg);
+
+
             if (arg.event.extendedProps.isUrgent) {
               return [ 'urgent' ]
             } else {
