@@ -1,0 +1,30 @@
+.holiday {
+    color: red;
+    background-color: lavenderblush;
+}
+.sat-calendar-gaia {
+    color: blue;
+    background-color: aliceblue;
+}
+
+.sun-calendar-gaia {
+    color: red;
+    background-color: lavenderblush;
+}
+
+.exception {
+    background-color: white;
+}
+
+.exception a {font-size: x-small;}
+
+.calendar-othermonth-gaia {
+    background-color: #f7f9fa;
+}
+.calendar-weekday-sat-gaia span {
+    color: blue;
+}
+
+.calendar-weekday-sun-gaia span {
+    color: red;
+}
