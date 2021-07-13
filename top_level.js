@@ -1,6 +1,7 @@
 kintone.events.on('app.record.detail.show', function(event){
     //kintone.app.record.setFieldShown('Text', false);
-    alert(event);
+    elements = event;
+    //alert(event);
   });
 
   kintone.events.on('space.portal.show', function () {
