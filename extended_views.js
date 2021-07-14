@@ -6,6 +6,7 @@
 })();
 
 function myFunction(){
+  var category_id = getCategoryFieldCodeID();
   kintone.events.on('app.record.index.show', function(event) {
     //-------------------------------------
     
@@ -40,17 +41,36 @@ function myFunction(){
         document.querySelector(".calendar-table-gaia").append(calen);
         calen.dispatchEvent(new CustomEvent("onload"));
       }catch(e){
+        displayCats();
         console.log(e);
       }
 
     }
-
+    function displayCats()
+    {
+      document.querySelectorAll("#view-list-data-gaia > table > tbody > tr").forEach((i)=>{
+        for (var j=0;j<i.querySelectorAll("td").length;j++){
+        if(i.querySelectorAll("td")[j].classList.contains("value-"+category_id)){
+            i.querySelectorAll("td")[j].querySelector("span").setAttribute("style","text-align: center; color:white; background:"+selectColor[i.querySelectorAll("td")[j].querySelectorAll("span")[0].innerText]+";");
+        }}
+        });
+    }
     //-------------------------------------
     
     return event;
   });
 
-  
+  function getCategoryFieldCodeID(){
+      var retval="0";
+      for (item in cybozu.data.page.FORM_DATA.schema.table.fieldList){
+        if(cybozu.data.page.FORM_DATA.schema.table.fieldList[item].var=="category_dd"){
+          //we found the category_dd fieldcode ID
+          retval = item;
+          break;
+          }        
+        }
+        return retval;
+    }
 }
   if(document.getElementById("calendar")){
     console.log("calendar added");
@@ -103,14 +123,15 @@ function addCalendar(){
   document.querySelectorAll(".fc-view-harness.fc-view-harness-active")[0].setAttribute("style","height:650px;");
 
   var startdateid = getFieldCodeName();
-  var category_id = getCategoryFieldCodeID();
+  
+  
   document.querySelectorAll("div.fc-daygrid-day-top > a").forEach((item)=>{
     item.setAttribute("href","edit?fid="+ startdateid + 
     "&v=" + item.parentElement.parentElement.parentElement.getAttribute("data-date"));    
   });
-}catch(e){
+  }catch(e){
   console.log(e);
-}
+  }
   function getFieldCodeName(){
     var retval="0";
     for (item in cybozu.data.page.FORM_DATA.schema.table.fieldList){
@@ -122,26 +143,8 @@ function addCalendar(){
       }
       return retval;
   }
-  function getCategoryFieldCodeID(){
-    var retval="0";
-    for (item in cybozu.data.page.FORM_DATA.schema.table.fieldList){
-      if(cybozu.data.page.FORM_DATA.schema.table.fieldList[item].var=="category_dd"){
-        //we found the category_dd fieldcode ID
-        retval = item;
-        break;
-        }        
-      }
-      return retval;
-  }
+  
 
-  function displayCats()
-  {
-    document.querySelectorAll("#view-list-data-gaia > table > tbody > tr").forEach((i)=>{
-      for (var j=0;j<i.querySelectorAll("td").length;j++){
-      if(i.querySelectorAll("td")[j].classList.contains("value-5519704")){
-          i.querySelectorAll("td")[j].querySelector("span").setAttribute("style","text-align: center; color:white; background:"+selectColor[i.querySelectorAll("td")[j].querySelectorAll("span")[0].innerText]+";");
-      }}
-      });
-  }
-  displayCats();
+  
+  
 }

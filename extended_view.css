@@ -21,3 +21,6 @@
 .fc-day-sat.fc-day-other{
     background-color:white;
 }
+.fc-day-sun div a {
+    color: red;
+}
