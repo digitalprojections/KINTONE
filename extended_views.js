@@ -20,7 +20,7 @@ function myFunction(){
         for(var j=0;j<records[index].length;j++){
           eventList.push(
             {
-              title : '(' + records[index][j].Created_by.value.name + ') ' +records[index][j].eventname.value,              
+              title : records[index][j].category_dd.value + ' (' + records[index][j].Created_by.value.name + ') ' +records[index][j].eventname.value,              
               start : moment(records[index][j].startdate.value).format("YYYY-MM-DD HH:mm:ss"),
               end   : moment(records[index][j].enddate.value).format("YYYY-MM-DD HH:mm:ss"),
               color : selectColor[records[index][j].category_dd.value],
@@ -134,14 +134,13 @@ function addCalendar(){
       return retval;
   }
 
-  function displayCats(){
+  function displayCats()
+  {
     document.querySelectorAll("#view-list-data-gaia > table > tbody > tr").forEach((i)=>{
       for (var j=0;j<i.querySelectorAll("td").length;j++){
-        if(i.querySelectorAll("td")[j].getAttribute("value")==category_id){
-          console.log(i.querySelectorAll("td")[j]);
-        }
-          
-      }
+      if(i.querySelectorAll("td")[j].classList.contains("value-5519704")){
+          i.querySelectorAll("td")[j].querySelector("span").setAttribute("style","text-align: center; color:white; background:"+selectColor[i.querySelectorAll("td")[j].querySelectorAll("span")[0].innerText]+";");
+      }}
       });
   }
   displayCats();
