@@ -28,3 +28,10 @@
 .calendar-weekday-sun-gaia span {
     color: red;
 }
+.calendar-cell-header-add-gaia{
+    opacity: 1;
+    cursor: pointer;
+    padding: 11px;
+    float: right;
+    background: url(https://static-y.kintone.com/k/kintone_21.7.5_5009338/image/gaia/icon/app/plus16.png) no-repeat center center;
+}

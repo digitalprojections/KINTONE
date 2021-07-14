@@ -35,9 +35,14 @@ function myFunction(){
       var calen = document.createElement("div");
       calen.id = "calendar";
       calen.addEventListener("onload", addCalendar);
-      document.querySelector(".calendar-table-gaia").innerHTML="";
-      document.querySelector(".calendar-table-gaia").append(calen);
-      calen.dispatchEvent(new CustomEvent("onload"));
+      try{
+        document.querySelector(".calendar-table-gaia").innerHTML="";
+        document.querySelector(".calendar-table-gaia").append(calen);
+        calen.dispatchEvent(new CustomEvent("onload"));
+      }catch(e){
+        console.log(e);
+      }
+
     }
 
     //-------------------------------------
@@ -54,26 +59,7 @@ function myFunction(){
   
 
 function addCalendar(){
-  //以前使おうとしていたキャレンダー、制限多く、技能不足していると思いました。今使っているキャレンダーはそのキャラクターが上に乗せられたベースになっていた物で有り、
-  //技能も多い、制限殆どなし、有っても出来る方法は有る
-
-  /*
- calendar = $('#calendar').fullCalendar({
-    header: {
-      left: 'prev,next today',
-      center: 'title',
-      right: 'month,basicWeek,basicDay'
-    },
-    defaultDate: new Date(),
-    displayEventTime: true,
-    displayEventEnd:true,
-    editable: true,
-    timeFormat: 'HH:mm',
-    eventLimit: true, // allow "more" link when too many events
-    events: eventList, // 配列表示データとして設定    
-  });
-  */
-var calendarEl = document.getElementById('calendar');
+  var calendarEl = document.getElementById('calendar');
         calendar = new FullCalendar.Calendar(calendarEl, {
           initialView: 'dayGridMonth',  
           headerToolbar:{
@@ -112,6 +98,51 @@ var calendarEl = document.getElementById('calendar');
         funcRef();
         //eventList = [];
   console.log("rendering the calendar");
+  try{
   document.querySelectorAll("table.fc-scrollgrid-sync-table")[0].setAttribute("style","height:600px");
-  
+  document.querySelectorAll(".fc-view-harness.fc-view-harness-active")[0].setAttribute("style","height:650px;");
+
+  var startdateid = getFieldCodeName();
+  var category_id = getCategoryFieldCodeID();
+  document.querySelectorAll("div.fc-daygrid-day-top > a").forEach((item)=>{
+    item.setAttribute("href","edit?fid="+ startdateid + 
+    "&v=" + item.parentElement.parentElement.parentElement.getAttribute("data-date"));    
+  });
+}catch(e){
+  console.log(e);
+}
+  function getFieldCodeName(){
+    var retval="0";
+    for (item in cybozu.data.page.FORM_DATA.schema.table.fieldList){
+      if(cybozu.data.page.FORM_DATA.schema.table.fieldList[item].var=="startdate"){
+        //we found the startdate fieldcode ID
+        retval = item;
+        break;
+        }        
+      }
+      return retval;
+  }
+  function getCategoryFieldCodeID(){
+    var retval="0";
+    for (item in cybozu.data.page.FORM_DATA.schema.table.fieldList){
+      if(cybozu.data.page.FORM_DATA.schema.table.fieldList[item].var=="category_dd"){
+        //we found the category_dd fieldcode ID
+        retval = item;
+        break;
+        }        
+      }
+      return retval;
+  }
+
+  function displayCats(){
+    document.querySelectorAll("#view-list-data-gaia > table > tbody > tr").forEach((i)=>{
+      for (var j=0;j<i.querySelectorAll("td").length;j++){
+        if(i.querySelectorAll("td")[j].getAttribute("value")==category_id){
+          console.log(i.querySelectorAll("td")[j]);
+        }
+          
+      }
+      });
+  }
+  displayCats();
 }

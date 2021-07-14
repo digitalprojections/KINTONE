@@ -1,3 +1,23 @@
-table.fc-scrollgrid-sync-table{
-height: 523px;
+.fc-day>div>div>a {
+    color: slategray;
+}
+
+.fc-day-sun>div>div>a {
+    color: red;
+}
+
+.fc-day-sat>div>div>a {
+    color: blue;
+}
+.fc-day-sun{
+    background-color: lavenderblush;
+}
+.fc-day-sun.fc-day-other{
+    background-color:white;
+}
+.fc-day-sat{
+    background-color:azure;
+}
+.fc-day-sat.fc-day-other{
+    background-color:white;
 }
