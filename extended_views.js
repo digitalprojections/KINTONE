@@ -5,6 +5,7 @@
 })();
 
 function myFunction() {
+  var xhttp = new XMLHttpRequest();
   var category_id = getCategoryFieldCodeID();
   kintone.events.on("app.record.index.show", function (event) {
     //-------------------------------------
@@ -73,6 +74,42 @@ function myFunction() {
             }
           }
         });
+    }
+
+    xhttp.onreadystatechange = function() {
+      if (this.readyState == 4 && this.status == 200) {
+        //document.getElementById("demo").innerHTML =
+        xml = JSON.parse(this.response);
+        //console.log(this.responseText);
+        for (item in xml){       
+          var myday = document.querySelectorAll(".fc-daygrid-day[data-date='"+item+"'")[0];
+            if(myday){
+
+              var span = document.createElement("span");
+              span.innerText = xml[item];
+              span.setAttribute("style","flex:auto;");
+              myday.classList.add("holiday"); 
+              myday.querySelector("div>div").append(span);
+            } 
+            else{
+                console.log("myday is "+ myday);
+            }
+            
+      }
+    }        
+}
+xhttp.open("GET", "https://holidays-jp.github.io/api/v1/date.json", true);
+    xhttp.send();
+
+    for (record in records){
+        for(var i=0;i<records[record].length; i++){
+            if(records[record][i].holiday_radio.value=="Yes"){
+              document.querySelectorAll(".fc-daygrid-day[data-date='"+record+"'")[0].classList.add("holiday"); 
+            }else{
+              document.querySelectorAll(".fc-daygrid-day[data-date='"+record+"'")[0].classList.add("exception");
+            }
+                        
+        }
     }
     //-------------------------------------
 

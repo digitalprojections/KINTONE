@@ -6,10 +6,10 @@
    })();
 
    function myFunction(){
-
+    var xhttp = new XMLHttpRequest();
     kintone.events.on('app.record.index.show', function(event) {
         records = event.records;
-        var xhttp = new XMLHttpRequest();
+        
         xhttp.onreadystatechange = function() {
           if (this.readyState == 4 && this.status == 200) {
             //document.getElementById("demo").innerHTML =

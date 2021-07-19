@@ -24,3 +24,11 @@
 .fc-day-sun div a {
     color: red;
 }
+.exception {
+    background-color: white;
+}
+.exception a {font-size: x-small;}
+.holiday {
+    color: red;
+    background-color: lavenderblush;
+}
