@@ -8,12 +8,8 @@ function myFunction() {
   var xhttp = new XMLHttpRequest();
   var category_id = getCategoryFieldCodeID();
   kintone.events.on("app.record.index.show", function (event) {
-    //-------------------------------------
-
     // レコードの一覧取得
-
     records = event.records;
-
     // 取得したレコードを配列に設定する
     eventList = [];
     if (records) {
@@ -38,7 +34,7 @@ function myFunction() {
           });
         }
       }
-
+//要望②期間表示ができること
       var calen = document.createElement("div");
       calen.id = "calendar";
       calen.addEventListener("onload", addCalendar);
@@ -108,11 +104,9 @@ xhttp.open("GET", "https://holidays-jp.github.io/api/v1/date.json", true);
             }else{
               document.querySelectorAll(".fc-daygrid-day[data-date='"+record+"'")[0].classList.add("exception");
             }
-                        
         }
     }
     //-------------------------------------
-
     return event;
   });
 
@@ -123,7 +117,7 @@ xhttp.open("GET", "https://holidays-jp.github.io/api/v1/date.json", true);
         cybozu.data.page.FORM_DATA.schema.table.fieldList[item].var ==
         "category_dd"
       ) {
-        //we found the category_dd fieldcode ID
+        //category_dd フィールドコード IDを見つけた
         retval = item;
         break;
       }
@@ -169,15 +163,9 @@ function addCalendar() {
   });
 
   calendar.render();
-  funcRef = function () {
-    lochash = window.location.hash;
-    if (lochash.length > 0) {
-      lochash = lochash.substr(lochash.indexOf("=") + 1);
-      console.log(lochash);
-      calendar.gotoDate(lochash);
-    }
-  };
-  funcRef();
+  
+  getLocHash(window.location.hash);
+    
   //eventList = [];
   console.log("rendering the calendar");
   try {
@@ -205,6 +193,14 @@ function addCalendar() {
     console.log(e);
   }
 
+  function getLocHash(x){
+    if (x.length > 0) {
+      x = x.substr(x.indexOf("=") + 1);
+      console.log(x);
+      calendar.gotoDate(x);
+    }
+  }
+
   function getFieldCodeName() {
     var retval = "0";
     for (item in cybozu.data.page.FORM_DATA.schema.table.fieldList) {
@@ -212,7 +208,7 @@ function addCalendar() {
         cybozu.data.page.FORM_DATA.schema.table.fieldList[item].var ==
         "startdate"
       ) {
-        //we found the startdate fieldcode ID
+        //startdate フィールドコード ID
         retval = item;
         break;
       }
