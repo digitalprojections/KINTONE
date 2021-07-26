@@ -27,6 +27,8 @@ function myFunction() {
             end: moment(records[index][j].enddate.value).format(
               "YYYY-MM-DD HH:mm:ss"
             ),
+            //category_dd、Record_number、enddate、startdate、Created_by、eventnameは
+            //アプリのフォームに無ければ、正しく動作しません
             color: selectColor[records[index][j].category_dd.value],
             bg_color: selectColor[records[index][j].category_dd.value],
             record_id: records[index][j].Record_number,
@@ -163,12 +165,14 @@ function addCalendar() {
   });
 
   calendar.render();
-  
-  getLocHash(window.location.hash);
-    
-  //eventList = [];
-  console.log("rendering the calendar");
+   console.log("rendering the calendar");
+
+  getLocHash(window.location.hash);    
+  //eventList = []; 
   try {
+    //このブロックは全てのセルをチェックしイベントが入っていれば、そのイベントにクリック
+    //アクションを使えるようにする。
+    //itemはAタッグです。
     document
       .querySelectorAll("table.fc-scrollgrid-sync-table")[0]
       .setAttribute("style", "height:600px");
@@ -176,6 +180,7 @@ function addCalendar() {
       .querySelectorAll(".fc-view-harness.fc-view-harness-active")[0]
       .setAttribute("style", "height:650px;");
 
+    //開始日をcybozu.data.page.FORM_DATA.schema.table.fieldList　から取る。
     var startdateid = getFieldCodeName();
 
     document.querySelectorAll("div.fc-daygrid-day-top > a").forEach((item) => {

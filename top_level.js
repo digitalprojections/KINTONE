@@ -1,3 +1,5 @@
+//トップレベルのスクリプト。アプリじゃなくて、KINTONEのトップレベルに入れる事
+//Customizing Kintone System-Wide
 kintone.events.on("app.record.detail.show", function (event) {
   //kintone.app.record.setFieldShown('Text', false);
   elements = event;
@@ -5,6 +7,7 @@ kintone.events.on("app.record.detail.show", function (event) {
     for (item in cybozu.data.page.FORM_DATA.schema.table.fieldList) {
       if (
         cybozu.data.page.FORM_DATA.schema.table.fieldList[item].var ==
+        //カテゴリーのフィールドコード名
         "category_dd"
       ) {
         //we found the category_dd fieldcode ID

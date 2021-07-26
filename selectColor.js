@@ -1,3 +1,5 @@
+//トップレベルのスクリプト。アプリじゃなくて、KINTONEのトップレベルに入れる事
+//Customizing Kintone System-Wide
 selectColor = {
   "営業 (訪問)": "gray",
     "営業 (Web)": "silver",
