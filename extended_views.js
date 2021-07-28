@@ -12,7 +12,6 @@ https://cdn.jsdelivr.net/npm/fullcalendar@5.8.0/main.min.css
 
 */
 
-
 (function () {
   "use strict";
 
@@ -21,7 +20,7 @@ https://cdn.jsdelivr.net/npm/fullcalendar@5.8.0/main.min.css
 
 function myFunction() {
   var xhttp = new XMLHttpRequest();
-  var category_id = getCategoryFieldCodeID();
+
   kintone.events.on("app.record.index.show", function (event) {
     // レコードの一覧取得
     records = event.records;
@@ -31,7 +30,8 @@ function myFunction() {
       for (index in records) {
         for (var j = 0; j < records[index].length; j++) {
           eventList.push({
-            title: records[index][j].category_dd.value +
+            title:
+              records[index][j].category_dd.value +
               " (" +
               records[index][j].author.value.name +
               ") " +
@@ -46,12 +46,12 @@ function myFunction() {
             //アプリのフォームに無ければ、正しく動作しません
             color: selectColor[records[index][j].category_dd.value],
             bg_color: selectColor[records[index][j].category_dd.value],
-            record_id: records[index][j].Record_number,
+            record_id: records[index][j].$id,
             category_name: records[index][j].category_dd.value,
           });
         }
       }
-//要望②期間表示ができること
+      //要望②期間表示ができること
       var calen = document.createElement("div");
       calen.id = "calendar";
       calen.addEventListener("onload", addCalendar);
@@ -60,90 +60,108 @@ function myFunction() {
         document.querySelector(".calendar-table-gaia").append(calen);
         calen.dispatchEvent(new CustomEvent("onload"));
       } catch (e) {
+        //this error means, we are in list view
+        //リスト表示だから、カテゴリーの色、アイコンの様に
         displayCats();
         console.log(e);
-      }    
+      }
     }
 
-    function displayCats() {
-      document
-        .querySelectorAll("#view-list-data-gaia > table > tbody > tr")
-        .forEach((i) => {
-          for (var j = 0; j < i.querySelectorAll("td").length; j++) {
-            if (
-              i
-              .querySelectorAll("td")[j].classList.contains("value-" + category_id)
-            ) {
-              i.querySelectorAll("td")[j].querySelector("span")
-                .setAttribute(
-                  "style",
-                  "text-align: center; color:white; background:" +
-                  selectColor[
-                    i.querySelectorAll("td")[j].querySelectorAll("span")[0]
-                    .innerText
-                  ] +
-                  ";"
-                );
-            }
-          }
-        });
-    }
+    
 
-    xhttp.onreadystatechange = function() {
+    xhttp.onreadystatechange = function () {
       if (this.readyState == 4 && this.status == 200) {
         //document.getElementById("demo").innerHTML =
         xml = JSON.parse(this.response);
         //console.log(this.responseText);
-        for (item in xml){       
-          var myday = document.querySelectorAll(".fc-daygrid-day[data-date='"+item+"'")[0];
-            if(myday){
-
-              var span = document.createElement("span");
-              span.innerText = xml[item];
-              span.setAttribute("style","flex:auto;");
+        for (item in xml) {
+          var myday = document.querySelectorAll(
+            ".fc-daygrid-day[data-date='" + item + "'"
+          )[0];
+          if (myday) {
+            var span = document.createElement("span");
+            span.innerText = xml[item];
+            span.setAttribute("style", "flex:auto;");
+            myday.classList.add("holiday");
               myday.classList.add("holiday"); 
-              myday.querySelector("div>div").append(span);
+            myday.classList.add("holiday");
+            myday.querySelector("div>div").append(span);
+          } else {
+            console.log("myday is " + myday);
+          }
             } 
-            else{
-                console.log("myday is "+ myday);
-            }
-            
+          }
+        }
       }
-    }        
-}
-xhttp.open("GET", "https://holidays-jp.github.io/api/v1/date.json", true);
+    };
+    xhttp.open("GET", "https://holidays-jp.github.io/api/v1/date.json", true);
     xhttp.send();
 
-    for (record in records){
-        for(var i=0;i<records[record].length; i++){
-            if(records[record][i].holiday_radio.value=="Yes"){
-              document.querySelectorAll(".fc-daygrid-day[data-date='"+record+"'")[0].classList.add("holiday"); 
-            }else{
-              document.querySelectorAll(".fc-daygrid-day[data-date='"+record+"'")[0].classList.add("exception");
-            }
+    for (record in records) {
+      for (var i = 0; i < records[record].length; i++) {
+        if (records[record][i].holiday_radio.value == "Yes") {
+          document
+            .querySelectorAll(".fc-daygrid-day[data-date='" + record + "'")[0]
+            .classList.add("holiday");
+        } else {
+          document
+            .querySelectorAll(".fc-daygrid-day[data-date='" + record + "'")[0]
+            .classList.add("exception");
         }
+      }
     }
     //-------------------------------------
     return event;
   });
 
-  function getCategoryFieldCodeID() {
-    var retval = "0";
-    for (item in cybozu.data.page.FORM_DATA.schema.table.fieldList) {
-      if (
-        cybozu.data.page.FORM_DATA.schema.table.fieldList[item].var ==
-        "category_dd"
-      ) {
-        //category_dd フィールドコード IDを見つけた
-        retval = item;
-        break;
-      }
-    }
-    return retval;
-  }
+  
 }
 if (document.getElementById("calendar")) {
   console.log("calendar added");
+}
+function getCategoryFieldCodeID() {
+  var retval = "0";
+  for (item in cybozu.data.page.FORM_DATA.schema.table.fieldList) {
+    if (
+      cybozu.data.page.FORM_DATA.schema.table.fieldList[item].var ==
+      "category_dd"
+    ) {
+      //category_dd フィールドコード IDを見つけた
+      retval = item;
+      break;
+    }
+  }
+  return retval;
+}
+function displayCats() {
+  var category_id = getCategoryFieldCodeID();
+  document
+    .querySelectorAll("#view-list-data-gaia table tbody tr")
+    .forEach((i) => {
+      for (var j = 0; j < i.querySelectorAll("td").length; j++) {
+        console.log( i
+          .querySelectorAll("td")
+          [j]);
+
+        if (
+          i
+            .querySelectorAll("td")
+            [j].classList.contains("value-" + category_id)
+        ) {
+          i.querySelectorAll("td")
+            [j].querySelector("span")
+            .setAttribute(
+              "style",
+              "text-align: center; color:white; background:" +
+                selectColor[
+                  i.querySelectorAll("td")[j].querySelectorAll("span")[0]
+                    .innerText
+                ] +
+                ";"
+            );
+        }
+      }
+    });
 }
 
 function addCalendar() {
@@ -155,8 +173,8 @@ function addCalendar() {
       center: "title", //冗長と感じられるかも知れませんが、確認の為に必要。真ん中に表示する、例：July-2021
       end: "", // 普段右側、RTLの場合は左に表示する。必要がない為隠している
     },
-    locale:'jp',
-    googleCalendarApiKey:"AIzaSyAIC0iaF4zmKPANSF_EaKFbWRCC-bW381k",
+    locale: "ja",
+    googleCalendarApiKey: "AIzaSyAIC0iaF4zmKPANSF_EaKFbWRCC-bW381k",
     events: eventList,
     //events: 'ja.japanese#holiday@group.v.calendar.google.com',
     eventClick: function (info) {
@@ -164,8 +182,8 @@ function addCalendar() {
       clicktargetevent = info;
       window.open(
         window.location.pathname +
-        "show#record=" +
-        info.event._def.extendedProps.record_id.value,
+          "show#record=" +
+          info.event._def.extendedProps.record_id.value,
         "_self"
       );
     },
@@ -178,14 +196,14 @@ function addCalendar() {
     //     return ["normal"];
     //   }
     // },
-
+    
   });
 
   calendar.render();
-   console.log("rendering the calendar");
-
-  getLocHash(window.location.hash);    
-  //eventList = []; 
+  console.log("rendering the calendar");
+  
+  getLocHash(window.location.hash);
+  //eventList = [];
   try {
     //このブロックは全てのセルをチェックしイベントが入っていれば、そのイベントにクリック
     //アクションを使えるようにする。
@@ -204,18 +222,19 @@ function addCalendar() {
       item.setAttribute(
         "href",
         "edit?fid=" +
-        startdateid +
-        "&v=" +
-        item.parentElement.parentElement.parentElement.getAttribute(
-          "data-date"
-        )
+          startdateid +
+          "&v=" +
+          item.parentElement.parentElement.parentElement.getAttribute(
+            "data-date"
+          )
       );
+      item.setAttribute("target","_self");
     });
   } catch (e) {
     console.log(e);
   }
 
-  function getLocHash(x){
+  function getLocHash(x) {
     if (x.length > 0) {
       x = x.substr(x.indexOf("=") + 1);
       console.log(x);
@@ -228,7 +247,7 @@ function addCalendar() {
     for (item in cybozu.data.page.FORM_DATA.schema.table.fieldList) {
       if (
         cybozu.data.page.FORM_DATA.schema.table.fieldList[item].var ==
-        "startdate"
+        "start_date"
       ) {
         //startdate フィールドコード ID
         retval = item;
