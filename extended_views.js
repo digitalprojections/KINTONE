@@ -1,3 +1,18 @@
+/*
+https://code.jquery.com/jquery-2.2.4.min.js
+https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js
+https://cdn.jsdelivr.net/npm/fullcalendar@5.8.0/main.js
+
+
+CSS
+https://cdn.jsdelivr.net/npm/fullcalendar@5.8.0/main.min.css
+extended_view.css
+MOBILE CSS
+https://cdn.jsdelivr.net/npm/fullcalendar@5.8.0/main.min.css
+
+*/
+
+
 (function () {
   "use strict";
 
@@ -18,13 +33,13 @@ function myFunction() {
           eventList.push({
             title: records[index][j].category_dd.value +
               " (" +
-              records[index][j].Created_by.value.name +
+              records[index][j].author.value.name +
               ") " +
-              records[index][j].eventname.value,
-            start: moment(records[index][j].startdate.value).format(
+              records[index][j].event_name.value,
+            start: moment(records[index][j].start_date.value).format(
               "YYYY-MM-DD HH:mm:ss"
             ),
-            end: moment(records[index][j].enddate.value).format(
+            end: moment(records[index][j].end_date.value).format(
               "YYYY-MM-DD HH:mm:ss"
             ),
             //category_dd、Record_number、enddate、startdate、Created_by、eventnameは
@@ -140,8 +155,10 @@ function addCalendar() {
       center: "title", //冗長と感じられるかも知れませんが、確認の為に必要。真ん中に表示する、例：July-2021
       end: "", // 普段右側、RTLの場合は左に表示する。必要がない為隠している
     },
-    locale: "ja",
+    locale:'jp',
+    googleCalendarApiKey:"AIzaSyAIC0iaF4zmKPANSF_EaKFbWRCC-bW381k",
     events: eventList,
+    //events: 'ja.japanese#holiday@group.v.calendar.google.com',
     eventClick: function (info) {
       console.log(info);
       clicktargetevent = info;
