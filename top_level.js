@@ -25,7 +25,7 @@ function setColor(category_name){
   return localStorage.getItem(category_name) ? localStorage.getItem(category_name) : selectColor[category_name];
 }
 kintone.events.on(
-  ["app.record.create.show", "app.record.edit.show", "app.record.detail.show"],
+  ["app.record.create.show", "app.record.edit.show", "app.record.detail.show", "app.record.index.edit.submit.success"],
   function (event) {
     //kintone.app.record.setFieldShown('Text', false);
     elements = event;
