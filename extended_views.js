@@ -75,25 +75,25 @@ function myFunction() {
         xml = JSON.parse(this.response);
         //console.log(this.responseText);
         for (item in xml) {
-          var myday = document.querySelectorAll(
-            ".fc-daygrid-day[data-date='" + item + "'"
-          )[0];
-          if (myday) {
-            var span = document.createElement("span");
-            span.innerText = xml[item];
-            span.setAttribute("style", "flex:auto;");
-            myday.classList.add("holiday");
-              myday.classList.add("holiday"); 
-            myday.classList.add("holiday");
-            myday.querySelector("div>div").append(span);
-          } else {
-            console.log("myday is " + myday);
-          }
+            var myday = document.querySelectorAll(
+              ".fc-daygrid-day[data-date='" + item + "'"
+            )[0];
+              if (myday) {
+                var span = document.createElement("span");
+                span.innerText = xml[item];
+                span.setAttribute("style", "flex:auto;");
+                myday.classList.add("holiday");
+                  myday.classList.add("holiday"); 
+                myday.classList.add("holiday");
+                myday.querySelector("div>div").append(span);
+              } else {
+                console.log("myday is " + myday);
+              }
             } 
           }
-        }
-      }
-    };
+        }   
+         
+    
     xhttp.open("GET", "https://holidays-jp.github.io/api/v1/date.json", true);
     xhttp.send();
 
@@ -112,6 +112,7 @@ function myFunction() {
     }
     //-------------------------------------
     return event;
+  
   });
 
   
@@ -152,7 +153,7 @@ function displayCats() {
             [j].querySelector("span")
             .setAttribute(
               "style",
-              "text-align: center; color:white; background:" +
+              "text-align: center; background:" +
                 selectColor[
                   i.querySelectorAll("td")[j].querySelectorAll("span")[0]
                     .innerText
