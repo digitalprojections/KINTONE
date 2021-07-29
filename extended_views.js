@@ -44,8 +44,8 @@ function myFunction() {
             ),
             //category_dd、Record_number、enddate、startdate、Created_by、eventnameは
             //アプリのフォームに無ければ、正しく動作しません
-            color: selectColor[records[index][j].category_dd.value],
-            bg_color: selectColor[records[index][j].category_dd.value],
+            color: setColor(records[index][j].category_dd.value),
+            bg_color: setColor(records[index][j].category_dd.value),
             record_id: records[index][j].$id,
             category_name: records[index][j].category_dd.value,
           });
@@ -154,10 +154,10 @@ function displayCats() {
             .setAttribute(
               "style",
               "text-align: center; background:" +
-                selectColor[
+                setColor(
                   i.querySelectorAll("td")[j].querySelectorAll("span")[0]
                     .innerText
-                ] +
+                ) +
                 ";"
             );
         }
