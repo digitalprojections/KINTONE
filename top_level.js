@@ -21,67 +21,81 @@ selectColor = {
   有給休暇: "#00ff80",
   その他: "#bfff00",
 };
-function setColor(category_name){
-  return localStorage.getItem(category_name) ? localStorage.getItem(category_name) : selectColor[category_name];
+function getColor(category_name) {
+  console.log(category_name);
+  return localStorage.getItem(category_name)
+    ? localStorage.getItem(category_name)
+    : selectColor[category_name];
+}
+function displayCats() {
+  
+  var catar = kintone.app.getFieldElements("category_dd");  
+    for(i=0; i<catar?.length;i++){
+      catar[i].style.backgroundColor = getColor(catar[i].innerText);
+  }
+  
 }
 kintone.events.on(
-  ["app.record.create.show", "app.record.edit.show", "app.record.detail.show", "app.record.index.edit.submit.success"],
+  [
+    "app.record.create.show",
+    "app.record.edit.show",
+    "app.record.detail.show",
+    "app.record.index.edit.submit.success",
+    "app.record.edit.change.category_dd"
+  ],
   function (event) {
     //kintone.app.record.setFieldShown('Text', false);
     elements = event;
-    var allday_id = getAllDayFCodeID();
-    var enddate_id = getEndDateFCID();
-
-    setCategoryColor();
-
-    $(".control-value-gaia.value-" + allday_id + " div span input").on(
-      "click",
-      function () {
-        setInputValues(enddate_id, this.checked);
-      }
-    );
-    //alert(event);
-    setInputValues(
-      enddate_id,
-      $(".control-value-gaia.value-" + allday_id + " div span input")[0]?.checked
-    );
-  }
-);
-function setCategoryColor() {
-  var category_id;
-  for (item in cybozu.data.page.FORM_DATA.schema.table.fieldList) {
-    if (
-      cybozu.data.page.FORM_DATA.schema.table.fieldList[item].var ==
-      //カテゴリーのフィールドコード名
-      "category_dd"
-    ) {
-      //we found the category_dd fieldcode ID
-      category_id = item;
-      category_item = document.querySelectorAll(".value-" + item + " span")[0]?.innerText;
-      // document
-      //   .querySelectorAll(".value-" + item)[0]?.setAttribute(
-      //     "style",
-      //     "background-color:" + selectColor[category_item] + "!important;"
-      //   );
-      break;
+    console.log(event.type);
+    if(event.type=="app.record.edit.show" || 
+    event.type=="app.record.detail.show"){
+      var allday_id = getAllDayFCodeID();
+      var enddate_id = getEndDateFCID();
+  
+      category_item = event.record.category_dd.value;
+      
+      //if ALL DAY cb is checked, DISABLE enddate and time
+      $(".control-value-gaia.value-" + allday_id + " div span input").on(
+        "click",
+        function () {
+          setInputValues(enddate_id, this.checked);
+        }
+      );
+      //alert(event);
+      setInputValues(
+        enddate_id,
+        $(".control-value-gaia.value-" + allday_id + " div span input")[0]?.checked
+      );
+        //DISABLED enddate
+    }else if(event.type=="app.record.index.edit.submit.success")
+    {    
+     //console.log($(".value-5953026  span"));
+     setTimeout(()=>{displayCats()},500);
+     //displayCats();
+    }else if(event.type=="app.record.edit.change.category_dd"){
+      cpicker.value = getColor(event.record.category_dd.value);
+    }else if(event.type=="app.record.create.show"){
+      ///*Set enddate equal to the startdate*/
+      
+      ///
     }
-  }
+  
   //<input type="color" id="html5colorpicker" onchange="clickColor(0, -1, -1, 5)" value="#ff0000" style="width: 30px;height: 30px;">
-  var cpicker = document.createElement("input");
+  cpicker = document.createElement("input");
   cpicker.id = "html5colorpicker";
   cpicker.type = "color";
   //cpicker.setAttribute("onchange", "clickColor(0, -1, -1, 5)");
-  cpicker.value = setColor(category_item);
+  cpicker.value = getColor(category_item);
   cpicker.setAttribute("style", "width:174px; height:20px;");
   cpicker.addEventListener("change", watchColorPicker, false);
   //now add the element at the right place
-  $(".field-"+category_id)[0]?.append(cpicker);
-  
-  function watchColorPicker(event) {    
+  $(".field-" + category_id)[0]?.append(cpicker);
+
+  function watchColorPicker(event) {
     //cpicker.value = event.target.value;
-    localStorage.setItem(category_item, event.target.value);  
+    localStorage.setItem(category_item, event.target.value);
   }
-}
+});
 
 function setInputValues(enddate_id, bool) {
   console.log(this.checked);
@@ -91,7 +105,8 @@ function setInputValues(enddate_id, bool) {
     document
       .querySelectorAll(
         ".control-value-gaia.value-" + enddate_id + " div input"
-      )?.forEach((i) => {
+      )
+      ?.forEach((i) => {
         i.value = "";
         i.disabled = true;
         //console.log(i);
@@ -100,7 +115,8 @@ function setInputValues(enddate_id, bool) {
     document
       .querySelectorAll(
         ".control-value-gaia.value-" + enddate_id + " div input"
-      )?.forEach((i) => {
+      )
+      ?.forEach((i) => {
         i.disabled = false;
         //console.log(i);
       });

@@ -44,8 +44,8 @@ function myFunction() {
             ),
             //category_dd、Record_number、enddate、startdate、Created_by、eventnameは
             //アプリのフォームに無ければ、正しく動作しません
-            color: setColor(records[index][j].category_dd.value),
-            bg_color: setColor(records[index][j].category_dd.value),
+            color: getColor(records[index][j].category_dd.value),
+            bg_color: getColor(records[index][j].category_dd.value),
             record_id: records[index][j].$id,
             category_name: records[index][j].category_dd.value,
           });
@@ -57,7 +57,7 @@ function myFunction() {
       calen.addEventListener("onload", addCalendar);
       try {
         document.querySelector(".calendar-table-gaia").innerHTML = "";
-        document.querySelector(".calendar-table-gaia").append(calen);
+        document.querySelector(".calendar-table-gaia")?.append(calen);
         calen.dispatchEvent(new CustomEvent("onload"));
       } catch (e) {
         //this error means, we are in list view
@@ -65,6 +65,7 @@ function myFunction() {
         displayCats();
         console.log(e);
       }
+      
     }
 
     
@@ -134,36 +135,7 @@ function getCategoryFieldCodeID() {
   }
   return retval;
 }
-function displayCats() {
-  var category_id = getCategoryFieldCodeID();
-  document
-    .querySelectorAll("#view-list-data-gaia table tbody tr")
-    .forEach((i) => {
-      for (var j = 0; j < i.querySelectorAll("td").length; j++) {
-        console.log( i
-          .querySelectorAll("td")
-          [j]);
 
-        if (
-          i
-            .querySelectorAll("td")
-            [j].classList.contains("value-" + category_id)
-        ) {
-          i.querySelectorAll("td")
-            [j].querySelector("span")
-            .setAttribute(
-              "style",
-              "text-align: center; background:" +
-                setColor(
-                  i.querySelectorAll("td")[j].querySelectorAll("span")[0]
-                    .innerText
-                ) +
-                ";"
-            );
-        }
-      }
-    });
-}
 
 function addCalendar() {
   var calendarEl = document.getElementById("calendar");
