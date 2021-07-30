@@ -72,24 +72,36 @@ kintone.events.on(
 function addUIAction() {
   //if ALL DAY cb is checked, DISABLE enddate and time
   //DISABLED enddate
-  $(
-    ".value-" +
-      getFieldCodeID("allday_cb") +
-      " div span input"
-  ).on("click", function () {
-    setInputValues(getFieldCodeID("end_date"), this.checked);
-  });
+  $(".value-" + getFieldCodeID("allday_cb") + " div span input").on(
+    "click",
+    function () {
+      setInputValues(getFieldCodeID("end_date"), this.checked);
+    }
+  );
   setInputValues(
     getFieldCodeID("end_date"),
-    $(
-      ".value-" +
-        getFieldCodeID("allday_cb") +
-        " div span input"
-    )[0]?.checked
+    $(".value-" + getFieldCodeID("allday_cb") + " div span input")[0]?.checked
   );
 }
-function setEndDate(){
-
+function setEndDate() {
+  //THIS MUST BE CHECKED
+  var d = new Date(Date.parse(elements.record.start_date.value) + 3600000);
+  edate = new Intl.DateTimeFormat("en-US", {
+    year: "numeric",
+    month: "2-digit",
+    day: "2-digit",
+  }).format(d);
+  etime = new Intl.DateTimeFormat("en-US", {
+    hour: "2-digit",
+    minute: "2-digit",
+    hourCycle: "h24",
+  }).format(d);
+  $(
+    ".value-" + getFieldCodeID("end_date") + " input.input-date-text-cybozu"
+  )[0].value = edate;
+  $(
+    ".value-" + getFieldCodeID("end_date") + " input.input-time-text-cybozu"
+  )[0].value = etime;
 }
 function addColorPicker(category_item) {
   //<input type="color" id="html5colorpicker" onchange="clickColor(0, -1, -1, 5)" value="#ff0000" style="width: 30px;height: 30px;">
@@ -105,7 +117,10 @@ function addColorPicker(category_item) {
 }
 function watchColorPicker() {
   cpicker.value = event.target.value;
-  localStorage.setItem(elements.record.category_dd.value, getColor(elements.record.category_dd.value));
+  localStorage.setItem(
+    elements.record.category_dd.value,
+    getColor(elements.record.category_dd.value)
+  );
 }
 function setInputValues(enddate_id, bool) {
   console.log(this.checked);
