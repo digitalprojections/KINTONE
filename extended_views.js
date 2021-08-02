@@ -134,8 +134,8 @@ function addCalendar() {
     },
     locale: "ja",
     googleCalendarApiKey: "AIzaSyAIC0iaF4zmKPANSF_EaKFbWRCC-bW381k",
-    //events: eventList,
-    events: 'ja.japanese#holiday@group.v.calendar.google.com',
+    events: eventList,
+    //events: 'ja.japanese#holiday@group.v.calendar.google.com',
     eventClick: function (info) {
       console.log(info);
       clicktargetevent = info;
@@ -202,3 +202,39 @@ function addCalendar() {
   }
 
 }
+
+
+/*IT IS A WORKING FIXED PARAMETER REQUEST CODE
+
+var grq = "https://www.googleapis.com/calendar/v3/calendars/ja.japanese%23holiday%40group.v.calendar.google.com/events?key=AIzaSyAIC0iaF4zmKPANSF_EaKFbWRCC-bW381k&timeMin=2021-08-01T00%3A00%3A00%2B09%3A00&timeMax=2021-09-12T00%3A00%3A00%2B09%3A00&singleEvents=true&maxResults=9999";
+//grq = encodeURI(grq);
+console.log(grq);
+  var xhttp = new XMLHttpRequest();
+xhttp.onreadystatechange = function () {
+      if (this.readyState == 4 && this.status == 200) {
+        //document.getElementById("demo").innerHTML =
+        xml = JSON.parse(this.response);
+        console.log(this.responseText);
+        for (item in xml) {
+            var myday = document.querySelectorAll(
+              ".fc-daygrid-day[data-date='" + item + "'"
+            )[0];
+              if (myday) {
+                var span = document.createElement("span");
+                span.innerText = xml[item];
+                span.setAttribute("style", "flex:auto;");
+                myday.classList.add("holiday");
+                  myday.classList.add("holiday"); 
+                myday.classList.add("holiday");
+                myday.querySelector("div>div").append(span);
+              } else {
+                console.log("myday is " + myday);
+              }
+            } 
+          }
+        }   
+         
+    //requesting Japanese holidays
+    xhttp.open("GET", grq, true);
+    xhttp.send();
+*/
