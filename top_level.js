@@ -41,6 +41,7 @@ kintone.events.on(
     "app.record.detail.show",
     "app.record.index.edit.submit.success",
     "app.record.edit.change.category_dd",
+    "app.record.create.change.category_dd",
   ],
   function (event) {
     elements = event;
@@ -57,7 +58,7 @@ kintone.events.on(
       setTimeout(() => {
         displayCats();
       }, 500);
-    } else if (event.type == "app.record.edit.change.category_dd") {
+    } else if (event.type == "app.record.edit.change.category_dd" || event.type == "app.record.create.change.category_dd") {
       cpicker.value = getColor(event.record.category_dd.value);
     } else if (event.type == "app.record.create.show") {
       kelement = event;
