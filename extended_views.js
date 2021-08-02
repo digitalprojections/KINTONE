@@ -94,10 +94,11 @@ function myFunction() {
           }
         }   
          
-    
+    //requesting Japanese holidays
     xhttp.open("GET", "https://holidays-jp.github.io/api/v1/date.json", true);
     xhttp.send();
 
+    //MARK all company holidays
     for (record in records) {
       for (var i = 0; i < records[record].length; i++) {
         if (records[record][i].holiday_radio.value == "Yes") {
@@ -121,21 +122,6 @@ function myFunction() {
 if (document.getElementById("calendar")) {
   console.log("calendar added");
 }
-function getCategoryFieldCodeID() {
-  var retval = "0";
-  for (item in cybozu.data.page.FORM_DATA.schema.table.fieldList) {
-    if (
-      cybozu.data.page.FORM_DATA.schema.table.fieldList[item].var ==
-      "category_dd"
-    ) {
-      //category_dd フィールドコード IDを見つけた
-      retval = item;
-      break;
-    }
-  }
-  return retval;
-}
-
 
 function addCalendar() {
   var calendarEl = document.getElementById("calendar");
@@ -148,8 +134,8 @@ function addCalendar() {
     },
     locale: "ja",
     googleCalendarApiKey: "AIzaSyAIC0iaF4zmKPANSF_EaKFbWRCC-bW381k",
-    events: eventList,
-    //events: 'ja.japanese#holiday@group.v.calendar.google.com',
+    //events: eventList,
+    events: 'ja.japanese#holiday@group.v.calendar.google.com',
     eventClick: function (info) {
       console.log(info);
       clicktargetevent = info;
@@ -189,7 +175,7 @@ function addCalendar() {
       .setAttribute("style", "height:650px;");
 
     //開始日をcybozu.data.page.FORM_DATA.schema.table.fieldList　から取る。
-    var startdateid = getFieldCodeName();
+    var startdateid = getFieldCodeID("start_date");
 
     document.querySelectorAll("div.fc-daygrid-day-top > a").forEach((item) => {
       item.setAttribute(
@@ -215,18 +201,4 @@ function addCalendar() {
     }
   }
 
-  function getFieldCodeName() {
-    var retval = "0";
-    for (item in cybozu.data.page.FORM_DATA.schema.table.fieldList) {
-      if (
-        cybozu.data.page.FORM_DATA.schema.table.fieldList[item].var ==
-        "start_date"
-      ) {
-        //startdate フィールドコード ID
-        retval = item;
-        break;
-      }
-    }
-    return retval;
-  }
 }
