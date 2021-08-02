@@ -58,13 +58,17 @@ kintone.events.on(
       setTimeout(() => {
         displayCats();
       }, 500);
-    } else if (event.type == "app.record.edit.change.category_dd" || event.type == "app.record.create.change.category_dd") {
+    } else if (
+      event.type == "app.record.edit.change.category_dd" ||
+      event.type == "app.record.create.change.category_dd"
+    ) {
       cpicker.value = getColor(event.record.category_dd.value);
     } else if (event.type == "app.record.create.show") {
       kelement = event;
       addUIAction();
       ///*Set enddate equal to the startdate*/
       setEndDate();
+      addColorPicker();
       ///
     }
   }
@@ -118,10 +122,8 @@ function addColorPicker(category_item) {
 }
 function watchColorPicker() {
   cpicker.value = event.target.value;
-  localStorage.setItem(
-    elements.record.category_dd.value,
-    getColor(elements.record.category_dd.value)
-  );
+  localStorage.setItem(elements.record.category_dd.value, cpicker.value);
+  console.log("saving color " + cpicker.value);
 }
 function setInputValues(enddate_id, bool) {
   console.log(this.checked);
