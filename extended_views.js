@@ -98,7 +98,10 @@ function myFunction() {
     //MARK all company holidays
     for (record in records) {
       for (var i = 0; i < records[record].length; i++) {
-        if (records[record][i].holiday_radio.value == "Yes") {
+        if (
+          records[record][i].holiday_radio.value == "Yes" ||
+          records[record][i].holiday_radio.value == "はい"
+        ) {
           document
             .querySelectorAll(".fc-daygrid-day[data-date='" + record + "'")[0]
             .classList.add("holiday");
@@ -107,6 +110,13 @@ function myFunction() {
             .querySelectorAll(".fc-daygrid-day[data-date='" + record + "'")[0]
             .classList.add("exception");
         }
+        $(
+          ".fc-daygrid-day[data-date='" + record + "'] a.fc-daygrid-event"
+        ).each(function (item) {
+          if ($(this).text().indexOf("会社カレンダー") > 0) {
+            $(this).text("CC");
+          }
+        });
       }
     }
     //-------------------------------------
@@ -129,7 +139,7 @@ function addCalendar() {
     locale: "ja",
     googleCalendarApiKey: "AIzaSyAIC0iaF4zmKPANSF_EaKFbWRCC-bW381k",
     //events: eventList,
-    events: 'ja.japanese#holiday@group.v.calendar.google.com',
+    events: "ja.japanese#holiday@group.v.calendar.google.com",
     eventClick: function (info) {
       console.log(info);
       clicktargetevent = info;
@@ -207,7 +217,7 @@ class GCalUrl {
 }
 /*
  * working actual code
- * 
+ *
  * */
 /*class JCalUrl{
   
