@@ -67,58 +67,32 @@ function myFunction() {
       }
     }
 
-    xhttp.onreadystatechange = function () {
-      if (this.readyState == 4 && this.status == 200) {
-        //document.getElementById("demo").innerHTML =
-        xml = JSON.parse(this.response);
-        //console.log(this.responseText);
-        for (item in xml) {
-          var myday = document.querySelectorAll(
-            ".fc-daygrid-day[data-date='" + item + "'"
-          )[0];
-          if (myday) {
-            var span = document.createElement("span");
-            span.innerText = xml[item];
-            span.setAttribute("style", "flex:auto;");
-            myday.classList.add("holiday");
-            myday.classList.add("holiday");
-            myday.classList.add("holiday");
-            //myday.querySelector("div>div").append(span);
-          } else {
-            console.log("myday is " + myday);
-          }
-        }
-      }
-    };
+    // xhttp.onreadystatechange = function () {
+    //   if (this.readyState == 4 && this.status == 200) {
+    //     //document.getElementById("demo").innerHTML =
+    //     xml = JSON.parse(this.response);
+    //     //console.log(this.responseText);
+    //     for (item in xml) {
+    //       var myday = document.querySelectorAll(
+    //         ".fc-daygrid-day[data-date='" + item + "'"
+    //       )[0];
+    //       if (myday) {
+    //         var span = document.createElement("span");
+    //         span.innerText = xml[item];
+    //         span.setAttribute("style", "flex:auto;");
+    //         myday.classList.add("holiday");
+    //         //myday.querySelector("div>div").append(span);
+    //       } else {
+    //         console.log("myday is " + myday);
+    //       }
+    //     }
+    //   }
+    // };
 
-    //requesting Japanese holidays
-    xhttp.open("GET", "https://holidays-jp.github.io/api/v1/date.json", true);
-    xhttp.send();
+    // //requesting Japanese holidays
+    // xhttp.open("GET", "https://holidays-jp.github.io/api/v1/date.json", true);
+    // xhttp.send();
 
-    //MARK all company holidays
-    for (record in records) {
-      for (var i = 0; i < records[record].length; i++) {
-        if (
-          records[record][i].holiday_radio.value == "Yes" ||
-          records[record][i].holiday_radio.value == "はい"
-        ) {
-          document
-            .querySelectorAll(".fc-daygrid-day[data-date='" + record + "'")[0]
-            .classList.add("holiday");
-        } else {
-          document
-            .querySelectorAll(".fc-daygrid-day[data-date='" + record + "'")[0]
-            .classList.add("exception");
-        }
-        $(
-          ".fc-daygrid-day[data-date='" + record + "'] a.fc-daygrid-event"
-        ).each(function (item) {
-          if ($(this).text().indexOf("会社カレンダー") > 0) {
-            $(this).text("CC");
-          }
-        });
-      }
-    }
     //-------------------------------------
     return event;
   });
@@ -203,76 +177,42 @@ function addCalendar() {
       calendar.gotoDate(x);
     }
   }
-}
 
-class GCalUrl {
-  static main_url = "https://www.googleapis.com/calendar/v3/calendars/";
-  constructor(caltype, apikey, timeMin, timeMax) {
-    this.url = main_url + caltype + "/events";
-    this.options.key = apikey;
-    this.options.timeMin = timeMin;
-    this.options.timeMax = timeMax;
-    return this;
+  class GCalUrl {
+    static main_url = "https://www.googleapis.com/calendar/v3/calendars/";
+    constructor(caltype, apikey, timeMin, timeMax) {
+      this.url = main_url + caltype + "/events";
+      this.options.key = apikey;
+      this.options.timeMin = timeMin;
+      this.options.timeMax = timeMax;
+      return this;
+    }
   }
-}
-/*
- * working actual code
- *
- * */
-/*class JCalUrl{
-  
-  constructor(caltype, apikey, timeMin, timeMax){
-    this.main_url = "https://www.googleapis.com/calendar/v3/calendars/";
-    this.url = this.main_url + encodeURIComponent('ja.japanese#holiday@group.v.calendar.google.com') + "/events";
-    this.options = {};
-    this.options.key = apikey;
-    this.options.timeMin = timeMin;
-    this.options.timeMax = timeMax;
-    this.options.singleEvents = true;
-    this.options.maxResults = 9999;
-    return this;
-  }  
-}
-var caltimeObject = calendar.currentData.dateProfile.currentRange;
-var gcal = new JCalUrl('AIzaSyAIC0iaF4zmKPANSF_EaKFbWRCC-bW381k', caltimeObject.start.toJSON(), caltimeObject.end.toJSON());
-
-  $.get( gcal.url, gcal.options )
-  .done(function( data ) {
-    console.log(data );
-  });
-*/
-
-/*IT IS A WORKING FIXED PARAMETER REQUEST CODE
-
-var grq = "https://www.googleapis.com/calendar/v3/calendars/ja.japanese%23holiday%40group.v.calendar.google.com/events?key=AIzaSyAIC0iaF4zmKPANSF_EaKFbWRCC-bW381k&timeMin=2021-08-01T00%3A00%3A00%2B09%3A00&timeMax=2021-09-12T00%3A00%3A00%2B09%3A00&singleEvents=true&maxResults=9999";
-//grq = encodeURI(grq);
-console.log(grq);
-  var xhttp = new XMLHttpRequest();
-xhttp.onreadystatechange = function () {
-      if (this.readyState == 4 && this.status == 200) {
-        //document.getElementById("demo").innerHTML =
-        xml = JSON.parse(this.response);
-        console.log(this.responseText);
-        for (item in xml) {
-            var myday = document.querySelectorAll(
-              ".fc-daygrid-day[data-date='" + item + "'"
-            )[0];
-              if (myday) {
-                var span = document.createElement("span");
-                span.innerText = xml[item];
-                span.setAttribute("style", "flex:auto;");
-                myday.classList.add("holiday");
-                  myday.classList.add("holiday"); 
-                myday.classList.add("holiday");
-                myday.querySelector("div>div").append(span);
-              } else {
-                console.log("myday is " + myday);
-              }
-            } 
+  setTimeout(function(){
+    for (record in records) {
+      for (var i = 0; i < records[record].length; i++) {
+        if (
+          records[record][i].holiday_radio.value == "Yes" ||
+          records[record][i].holiday_radio.value == "はい"
+        ) {
+          document
+            .querySelectorAll(".fc-daygrid-day[data-date='" + record + "']")[0]
+            .classList.add("holiday");
+        } else {
+          document
+            .querySelectorAll(".fc-daygrid-day[data-date='" + record + "']")[0]
+            .classList.add("exception");
+        }
+        $(
+          ".fc-daygrid-day[data-date='" + record + "'] a.fc-daygrid-event"
+        ).each(function (item) {
+          if ($(this).text().indexOf("会社カレンダー") > 0) {
+            $(this).text("CC");
           }
-        }   
-         
-    //requesting Japanese holidays
-    xhttp.open("GET", grq, true);
-    xhttp.send();
-*/
+        });
+      }
+    }
+  },1000);
+}
+
+
