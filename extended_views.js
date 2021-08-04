@@ -63,12 +63,9 @@ function myFunction() {
         //this error means, we are in list view
         //リスト表示だから、カテゴリーの色、アイコンの様に
         displayCats();
-        console.log(e);
+        console.log(e.prototype.message);
       }
-      
     }
-
-    
 
     xhttp.onreadystatechange = function () {
       if (this.readyState == 4 && this.status == 200) {
@@ -76,24 +73,24 @@ function myFunction() {
         xml = JSON.parse(this.response);
         //console.log(this.responseText);
         for (item in xml) {
-            var myday = document.querySelectorAll(
-              ".fc-daygrid-day[data-date='" + item + "'"
-            )[0];
-              if (myday) {
-                var span = document.createElement("span");
-                span.innerText = xml[item];
-                span.setAttribute("style", "flex:auto;");
-                myday.classList.add("holiday");
-                  myday.classList.add("holiday"); 
-                myday.classList.add("holiday");
-                myday.querySelector("div>div").append(span);
-              } else {
-                console.log("myday is " + myday);
-              }
-            } 
+          var myday = document.querySelectorAll(
+            ".fc-daygrid-day[data-date='" + item + "'"
+          )[0];
+          if (myday) {
+            var span = document.createElement("span");
+            span.innerText = xml[item];
+            span.setAttribute("style", "flex:auto;");
+            myday.classList.add("holiday");
+            myday.classList.add("holiday");
+            myday.classList.add("holiday");
+            //myday.querySelector("div>div").append(span);
+          } else {
+            console.log("myday is " + myday);
           }
-        }   
-         
+        }
+      }
+    };
+
     //requesting Japanese holidays
     xhttp.open("GET", "https://holidays-jp.github.io/api/v1/date.json", true);
     xhttp.send();
@@ -114,10 +111,7 @@ function myFunction() {
     }
     //-------------------------------------
     return event;
-  
   });
-
-  
 }
 if (document.getElementById("calendar")) {
   console.log("calendar added");
@@ -134,8 +128,8 @@ function addCalendar() {
     },
     locale: "ja",
     googleCalendarApiKey: "AIzaSyAIC0iaF4zmKPANSF_EaKFbWRCC-bW381k",
-    events: eventList,
-    //events: 'ja.japanese#holiday@group.v.calendar.google.com',
+    //events: eventList,
+    events: 'ja.japanese#holiday@group.v.calendar.google.com',
     eventClick: function (info) {
       console.log(info);
       clicktargetevent = info;
@@ -155,12 +149,11 @@ function addCalendar() {
     //     return ["normal"];
     //   }
     // },
-    
   });
-
+  calendar.addEventSource(eventList);
   calendar.render();
   console.log("rendering the calendar");
-  
+
   getLocHash(window.location.hash);
   //eventList = [];
   try {
@@ -187,7 +180,7 @@ function addCalendar() {
             "data-date"
           )
       );
-      item.setAttribute("target","_self");
+      item.setAttribute("target", "_self");
     });
   } catch (e) {
     console.log(e);
@@ -200,9 +193,44 @@ function addCalendar() {
       calendar.gotoDate(x);
     }
   }
-
 }
 
+class GCalUrl {
+  static main_url = "https://www.googleapis.com/calendar/v3/calendars/";
+  constructor(caltype, apikey, timeMin, timeMax) {
+    this.url = main_url + caltype + "/events";
+    this.options.key = apikey;
+    this.options.timeMin = timeMin;
+    this.options.timeMax = timeMax;
+    return this;
+  }
+}
+/*
+ * working actual code
+ * 
+ * */
+/*class JCalUrl{
+  
+  constructor(caltype, apikey, timeMin, timeMax){
+    this.main_url = "https://www.googleapis.com/calendar/v3/calendars/";
+    this.url = this.main_url + encodeURIComponent('ja.japanese#holiday@group.v.calendar.google.com') + "/events";
+    this.options = {};
+    this.options.key = apikey;
+    this.options.timeMin = timeMin;
+    this.options.timeMax = timeMax;
+    this.options.singleEvents = true;
+    this.options.maxResults = 9999;
+    return this;
+  }  
+}
+var caltimeObject = calendar.currentData.dateProfile.currentRange;
+var gcal = new JCalUrl('AIzaSyAIC0iaF4zmKPANSF_EaKFbWRCC-bW381k', caltimeObject.start.toJSON(), caltimeObject.end.toJSON());
+
+  $.get( gcal.url, gcal.options )
+  .done(function( data ) {
+    console.log(data );
+  });
+*/
 
 /*IT IS A WORKING FIXED PARAMETER REQUEST CODE
 

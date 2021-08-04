@@ -92,12 +92,12 @@ function addUIAction() {
 function setEndDate() {
     //THIS MUST BE CHECKED
     var d = new Date(Date.parse(elements.record.start_date.value) + 3600000);
-    edate = new Intl.DateTimeFormat("en-US", {
+    edate = new Intl.DateTimeFormat(navigator.language, {
       year: "numeric",
       month: "2-digit",
       day: "2-digit",
     }).format(d);
-    etime = new Intl.DateTimeFormat("en-US", {
+    etime = new Intl.DateTimeFormat(navigator.language, {
       hour: "2-digit",
       minute: "2-digit",
       hourCycle: "h24",
