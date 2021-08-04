@@ -92,16 +92,31 @@ function addUIAction() {
 function setEndDate() {
     //THIS MUST BE CHECKED
     var d = new Date(Date.parse(elements.record.start_date.value) + 3600000);
-    edate = new Intl.DateTimeFormat(navigator.language, {
+    if(navigator.language=="en-US"){
+      edate = new Intl.DateTimeFormat("en-US", {
       year: "numeric",
       month: "2-digit",
       day: "2-digit",
     }).format(d);
-    etime = new Intl.DateTimeFormat(navigator.language, {
+    etime = new Intl.DateTimeFormat("en-US", {
       hour: "2-digit",
       minute: "2-digit",
       hourCycle: "h24",
     }).format(d);
+    }else {
+      edate = new Intl.DateTimeFormat("uz", {
+        year: "numeric",
+        month: "2-digit",
+        day: "2-digit",
+      }).format(d);
+      etime = new Intl.DateTimeFormat("uz", {
+        hour: "2-digit",
+        minute: "2-digit",
+        hourCycle: "h24",
+      }).format(d);
+    }
+    
+    
     $(
       ".value-" + getFieldCodeID("end_date") + " input.input-date-text-cybozu"
     )[0].value = edate;
@@ -151,10 +166,6 @@ function setInputValues(enddate_id, bool) {
       });
   }
 }
-kintone.events.on("space.portal.show", function () {
-  var el = kintone.space.portal.getContentSpaceElement();
-  el.textContent = "Hello Kintone!";
-});
 function getFieldCodeID(fc) {
   var retval = null;
   for (item in cybozu.data.page.FORM_DATA.schema.table.fieldList) {
