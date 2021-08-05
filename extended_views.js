@@ -110,6 +110,14 @@ function addCalendar() {
       center: "title", //冗長と感じられるかも知れませんが、確認の為に必要。真ん中に表示する、例：July-2021
       end: "", // 普段右側、RTLの場合は左に表示する。必要がない為隠している
     },
+    views:{
+      timeGrid:{
+        dayMaxEventRows:6
+      },
+      dayGrid:{
+        dayMaxEvents:5
+      }
+    },
     locale: "ja",
     googleCalendarApiKey: "AIzaSyAIC0iaF4zmKPANSF_EaKFbWRCC-bW381k",
     //events: eventList,

@@ -1,0 +1,35 @@
+i.fa.fa-rotate-left {
+    color: blue;
+    font-size: smaller;
+}
+
+button.btn {
+    font-size: 10px;
+    padding-top: 0px;
+    padding-bottom: 0px;
+    color: red;
+}
+
+p#cp_clear_txt {
+    margin: -3px;
+    font-size: 8px;
+    grid-area: header;
+    text-align: center;
+}
+
+div#btnbox {
+    display: grid;
+    grid-template-areas:
+        "header header"
+        "item item2";
+    background-color: white;
+}
+button#clear_one:disabled {
+    color: darkgray;
+}
+button#clear_two:disabled {
+    color: darkgray;
+}
+button#clear_one {grid-area: item;}
+
+button#clear_two {grid-area: item2;}
