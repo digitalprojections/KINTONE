@@ -110,13 +110,13 @@ function addCalendar() {
       center: "title", //冗長と感じられるかも知れませんが、確認の為に必要。真ん中に表示する、例：July-2021
       end: "", // 普段右側、RTLの場合は左に表示する。必要がない為隠している
     },
-    views:{
-      timeGrid:{
-        dayMaxEventRows:6
+    views: {
+      timeGrid: {
+        dayMaxEventRows: 6,
       },
-      dayGrid:{
-        dayMaxEvents:5
-      }
+      dayGrid: {
+        dayMaxEvents: 5,
+      },
     },
     locale: "ja",
     googleCalendarApiKey: "AIzaSyAIC0iaF4zmKPANSF_EaKFbWRCC-bW381k",
@@ -196,31 +196,36 @@ function addCalendar() {
       return this;
     }
   }
-  setTimeout(function(){
+  setTimeout(function () {
     for (record in records) {
       for (var i = 0; i < records[record].length; i++) {
-        if (
-          records[record][i].holiday_radio.value == "Yes" ||
-          records[record][i].holiday_radio.value == "はい"
-        ) {
-          document
-            .querySelectorAll(".fc-daygrid-day[data-date='" + record + "']")[0]
-            .classList.add("holiday");
-        } else {
-          document
-            .querySelectorAll(".fc-daygrid-day[data-date='" + record + "']")[0]
-            .classList.add("exception");
-        }
-        $(
-          ".fc-daygrid-day[data-date='" + record + "'] a.fc-daygrid-event"
-        ).each(function (item) {
-          if ($(this).text().indexOf("会社カレンダー") > 0) {
-            $(this).text("CC");
+        if (records[record][i].category_dd.value == "会社カレンダー") {
+          if (
+            records[record][i].holiday_radio.value == "Yes" ||
+            records[record][i].holiday_radio.value == "はい"
+          ) {
+            document
+              .querySelectorAll(
+                ".fc-daygrid-day[data-date='" + record + "']"
+              )[0]
+              .classList.add("holiday");
+          } else {
+            document
+              .querySelectorAll(
+                ".fc-daygrid-day[data-date='" + record + "']"
+              )[0]
+              .classList.add("exception");
           }
-        });
+          $(
+            ".fc-daygrid-day[data-date='" + record + "'] a.fc-daygrid-event"
+          ).each(function (item) {
+            if ($(this).text().indexOf("会社カレンダー") > 0) {
+              $(this).text("ALTECS Co. ltd");
+              //$(this).addClass("special_day");
+            }
+          });
+        }
       }
     }
-  },1000);
+  }, 1000);
 }
-
-
