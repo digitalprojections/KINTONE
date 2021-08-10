@@ -63,7 +63,7 @@ function myFunction() {
         //this error means, we are in list view
         //リスト表示だから、カテゴリーの色、アイコンの様に
         displayCats();
-        console.log(e.prototype.message);
+        console.log(e);
       }
     }
 
@@ -205,12 +205,14 @@ function addCalendar() {
             records[record][i].holiday_radio.value == "Yes" ||
             records[record][i].holiday_radio.value == "はい"
           ) {
+            //this means this day will be marked as a holiday. overrides the original calendar
             document
               .querySelectorAll(
                 ".fc-daygrid-day[data-date='" + record + "']"
               )[0]
               .classList.add("holiday");
           } else {
+            //this means the cell must display as a regular day. overrides the original calendar
             document
               .querySelectorAll(
                 ".fc-daygrid-day[data-date='" + record + "']"
