@@ -146,7 +146,7 @@ function addCalendar() {
   calendar.render();
   console.log("rendering the calendar");
 
-  getLocHash(window.location.hash);
+  gotoCalendar();
   //eventList = [];
   try {
     //このブロックは全てのセルをチェックしイベントが入っていれば、そのイベントにクリック
@@ -178,9 +178,10 @@ function addCalendar() {
     console.log(e);
   }
 
-  function getLocHash(x) {
-    if (x.length > 0) {
-      x = x.substr(x.indexOf("=") + 1);
+  function gotoCalendar() {
+    var x = window.location.hash;
+    if (x.length > 0 && x.indexOf("date=") > 0) {
+      x = x.substr(x.indexOf("date=") + 5);
       console.log(x);
       calendar.gotoDate(x);
     }
